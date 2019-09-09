@@ -187,13 +187,16 @@ describe('User Endpoints', function () {
             { original: 'Cane', translation: 'dog' },
           ]
         }
+        
         return supertest(app)
+      
           .post('/api/user')
           .send(newUser)
           .then(res =>
             /*
             get languages and words for user that were inserted to db
             */
+        
             db.from('language').select(
               'language.*',
               db.raw(
@@ -205,6 +208,7 @@ describe('User Endpoints', function () {
               ),
             )
             .leftJoin('word', 'word.language_id', 'language.id')
+            
             .groupBy('language.id')
             .where({ user_id: res.body.id })
           )

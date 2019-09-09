@@ -43,12 +43,13 @@ const UserService = {
   },
   populateUserWords(db, user_id) {
     return db.transaction(async trx => {
+      
       const [languageId] = await trx
         .into('language')
         .insert([
           { name: 'Italian', user_id },
         ], ['id'])
-
+        
       // when inserting words,
       // we need to know the current sequence number
       // so that we can set the `next` field of the linked language
@@ -63,13 +64,20 @@ const UserService = {
         ['Prego', 'you are welcome', 4],
         ['Mi scusi', 'excuse me', 5],
         ['Buon giorno', 'good morning', 6],
-        ['Ciao', 'hello', 7]
+        ['Ciao', 'hello', 7],
         ['Buon asera', 'good evening', 8],
         ['Latte', 'milk', 9],
         ['Pane', 'bread', 10],
         ['Cane', 'dog', null],
       ]
-
+      // console.log(languageWords.map((stuff) => ({
+      //   language_id: languageId.id,
+      //   original: stuff[0],
+      //   translation: stuff[1],
+      //   next: stuff[2]
+      //     ? Number(seq.last_value) + stuff[2]
+      //     : null
+      // })))
       const [languageHeadId] = await trx
         .into('word')
         .insert(
