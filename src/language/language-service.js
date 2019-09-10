@@ -29,13 +29,24 @@ const LanguageService = {
       .where({ language_id })
   },
 
-  getLanguangeHead(db, language_id) {
+  getLanguageHead(db, language_id) {
     return db
       .from('language')
       .select(
-        'head',
+       '*'
         
       )
+      .where({ id: language_id })
+
+  },
+  getWord(db, word_id) {
+    return db
+      .from('word')
+      .select (
+        '*'
+      )
+      .where({ id: word_id })
+      
   }
 }
 
