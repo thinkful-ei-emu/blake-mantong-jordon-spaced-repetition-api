@@ -45,7 +45,9 @@ languageRouter
 
 languageRouter
   .get('/head', async (req, res, next) => {
-    // implement me
+    try {
+      const 
+    }
     res.send('implement me!')
   })
 
