@@ -57,12 +57,15 @@ languageRouter
           req.app.get('db'),
           head )
           .then(word => {
-            resArr.push({
+            const newLang =
+            {
               nextWord: word.original,
-              totalScore: languageHead.total_score,
+              totalScore: language.total_score,
               wordCorrectCount: word.correct_count,
               wordIncorrectCount: word.incorrect_count,
-            })
+            };
+            console.log(newLang);
+            resArr.push(newLang);
           }) 
         });
         console.log(resArr)
