@@ -53,7 +53,7 @@ languageRouter
         let resArr = []
         let i = 0;
         while(i < languages.length){
-          const head = language.head
+          const head = languages[i].head
           LanguageService.getWord(
           req.app.get('db'),
           head )
@@ -68,8 +68,8 @@ languageRouter
             };
             console.log(newLang);
             resArr.push(newLang);
-            i++;
           });
+          i++;
         }
         console.log(resArr)
         res.status(200).json(resArr);
