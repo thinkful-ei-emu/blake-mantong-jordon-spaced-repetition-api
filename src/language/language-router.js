@@ -49,8 +49,7 @@ languageRouter
         req.app.get('db'),
         req.language.id,
       ) 
-      .then(languages => {
-        
+      .then(languages => {   
         let resArr = []
         languages.forEach(language => {
           const head = language.head
