@@ -1,7 +1,6 @@
 const express = require('express')
 const LanguageService = require('./language-service')
 const { requireAuth } = require('../middleware/jwt-auth')
-
 const languageRouter = express.Router()
 
 languageRouter
@@ -51,7 +50,7 @@ languageRouter
         req.language.id,
       ) 
       .then(languages => {
-        console.log(languageHead[0].head)
+        
         let resArr = []
         languages.forEach(language => {
           const head = language.head
@@ -67,6 +66,7 @@ languageRouter
             })
           }) 
         });
+        console.log(resArr)
         res.status(200).json(resArr)  ;
         })
         next()
