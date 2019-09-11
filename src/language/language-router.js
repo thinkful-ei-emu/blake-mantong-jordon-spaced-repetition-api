@@ -51,12 +51,14 @@ languageRouter
       ) 
       .then(languages => {   
         let resArr = []
-        languages.forEach(language => {
+        let i = 0;
+        while(i < languages.length){
           const head = language.head
           LanguageService.getWord(
           req.app.get('db'),
           head )
           .then(word => {
+            console.log(word);
             const newLang =
             {
               nextWord: word.original,
@@ -66,10 +68,11 @@ languageRouter
             };
             console.log(newLang);
             resArr.push(newLang);
+            i++
           }) 
-        });
+        }
         console.log(resArr)
-        res.status(200).json(resArr)  ;
+        res.status(200).json(resArr);
         })
         next()
     }
