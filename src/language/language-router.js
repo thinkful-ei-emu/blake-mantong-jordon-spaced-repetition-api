@@ -50,22 +50,24 @@ languageRouter
         req.app.get('db'),
         req.language.id,
       ) 
-      .then(languageHead => {
+      .then(languages => {
         console.log(languageHead[0].head)
-        const head = languageHead[0].head
-        LanguageService.getWord(
-        req.app.get('db'),
-        head )
-        .then(word => {
-          res.status(200).json({
-            nextWord: word.original,
-            totalScore: languageHead.total_score,
-            wordCorrectCount: word.correct_count,
-            wordIncorrectCount: word.incorrect_count,
-          }
-          )
-        })  
-        
+        let resArr = []
+        languages.forEach(language => {
+          const head = language.head
+          LanguageService.getWord(
+          req.app.get('db'),
+          head )
+          .then(word => {
+            resArr.push({
+              nextWord: word.original,
+              totalScore: languageHead.total_score,
+              wordCorrectCount: word.correct_count,
+              wordIncorrectCount: word.incorrect_count,
+            })
+          }) 
+        });
+        res.status(200).json(resArr)  ;
         })
         next()
     }
