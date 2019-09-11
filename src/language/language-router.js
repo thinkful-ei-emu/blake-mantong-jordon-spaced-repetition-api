@@ -48,6 +48,7 @@ languageRouter
       console.log(req.language);
       LanguageService.getWord(
         req.app.get('db'),
+<<<<<<< HEAD
         req.language.head )
         .then(word => {
           console.log(word);
@@ -60,6 +61,34 @@ languageRouter
           };
           console.log(newLang);
           res.json(newLang);
+=======
+        req.language.id,
+      ) 
+      .then(languages => {   
+        let resArr = []
+        let i = 0;
+        while(i < languages.length){
+          const head = languages[i].head
+          LanguageService.getWord(
+          req.app.get('db'),
+          head )
+          .then(word => {
+            console.log(word);
+            const newLang =
+            {
+              nextWord: word.original,
+              totalScore: language[i].total_score,
+              wordCorrectCount: word.correct_count,
+              wordIncorrectCount: word.incorrect_count,
+            };
+            console.log(newLang);
+            resArr.push(newLang);
+          });
+          i++;
+        }
+        console.log(resArr)
+        res.status(200).json(resArr);
+>>>>>>> 8f293bdfa2dd117b41f0900ccf86022d3cb135b0
         })
     }
     catch (error){
