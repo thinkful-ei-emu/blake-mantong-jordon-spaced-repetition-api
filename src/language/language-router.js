@@ -68,8 +68,8 @@ languageRouter
             };
             console.log(newLang);
             resArr.push(newLang);
-            i++
-          }) 
+            i++;
+          });
         }
         console.log(resArr)
         res.status(200).json(resArr);
