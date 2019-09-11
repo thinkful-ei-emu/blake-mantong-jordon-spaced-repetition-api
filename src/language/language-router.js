@@ -53,10 +53,13 @@ languageRouter
         let resArr = []
         languages.forEach(language => {
           const head = language.head
+          console.log(
+        head
+          ); 
           LanguageService.getWord(
           req.app.get('db'),
-          head )
-          .then(word => {
+          head ).then(word => {
+            console.log('return some word',word)
             const newLang =
             {
               nextWord: word.original,
