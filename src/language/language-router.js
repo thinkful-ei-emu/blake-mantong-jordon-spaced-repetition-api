@@ -62,7 +62,7 @@ languageRouter
             const newLang =
             {
               nextWord: word.original,
-              totalScore: language.total_score,
+              totalScore: language[i].total_score,
               wordCorrectCount: word.correct_count,
               wordIncorrectCount: word.incorrect_count,
             };
