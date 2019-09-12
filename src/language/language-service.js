@@ -12,7 +12,6 @@ const LanguageService = {
       .where('language.user_id', user_id)
       .first()
   },
-
   getLanguageWords(db, language_id) {
     return db
       .from('word')
@@ -28,16 +27,13 @@ const LanguageService = {
       )
       .where({ language_id })
   },
-
   getWord(db, word_id) {
     return db
       .from('word')
-      .select (
-        '*'
-      )
+      .select('*')
       .where({ id: word_id })
-      
-  }
+      .first();
+  },
 }
 
 module.exports = LanguageService
