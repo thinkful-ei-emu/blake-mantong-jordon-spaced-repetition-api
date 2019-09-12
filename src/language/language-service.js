@@ -42,7 +42,7 @@ const LanguageService = {
       .where({ id: language_id });
 
   },
-  updateWord(db, word_id, word){
+  updateWord(db, word_id, word) {
     return db
       .from('word')
       .where({ id: word_id })
@@ -52,11 +52,12 @@ const LanguageService = {
   getWord(db, word_id) {
     return db
       .from('word')
-      .select (
+      .select(
         '*'
       )
-      .where({ id: word_id });
-      
+      .where({ id: word_id })
+      .first();
+
   }
 };
 
