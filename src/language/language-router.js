@@ -49,16 +49,17 @@ languageRouter
         req.language.head
       )
         .then(word => {
+          console.log(word)
           const nextWord =
           {
-            nextWord: word.original,
+            nextWord: word[0].original,
             totalScore: req.language.total_score,
-            wordCorrectCount: word.correct_count,
-            wordIncorrectCount: word.incorrect_count,
+            wordCorrectCount: word[0].correct_count,
+            wordIncorrectCount: word[0].incorrect_count,
           };
-
+          console.log(nextWord)
           res.status(200).json(nextWord);
-          next();
+          next();         
         });
     }
     catch (error){
