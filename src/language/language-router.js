@@ -44,29 +44,37 @@ languageRouter
 languageRouter
   .get('/head', async (req, res, next) => {
     try {
-      console.log(req.language);
-      LanguageService.getWord(
+      await LanguageService.getWord(
         req.app.get('db'),
-        req.language.head )
+        req.language.head
+      )
         .then(word => {
-          console.log(word);
-          const newLang =
+          const nextWord =
           {
             nextWord: word.original,
             totalScore: req.language.total_score,
             wordCorrectCount: word.correct_count,
             wordIncorrectCount: word.incorrect_count,
           };
+<<<<<<< HEAD
           console.log(newLang);
           res.json(newLang);
         });
       next();
     }
     catch (error){
+=======
+          res.status(200).json(nextWord);
+          next();
+        });
+    }
+    catch (error) {
+>>>>>>> cfce3aae1c1afae89d56fb7f4fc4f6ead21e5d2e
       next(error);
     }
   });
 
+<<<<<<< HEAD
 
 
 languageRouter
@@ -101,5 +109,12 @@ languageRouter
     // implement me
     res.send('implement me!');
   });
+=======
+languageRouter
+  .post('/guess', async (req, res, next) => {
+
+    res.send('implement me!')
+  })
+>>>>>>> cfce3aae1c1afae89d56fb7f4fc4f6ead21e5d2e
 
 module.exports = languageRouter;

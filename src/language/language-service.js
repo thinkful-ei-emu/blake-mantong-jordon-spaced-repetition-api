@@ -34,6 +34,7 @@ const LanguageService = {
       )
       .where({ language_id });
   },
+<<<<<<< HEAD
 
   getLanguageHead(db, language_id) {
     return db
@@ -59,5 +60,15 @@ const LanguageService = {
       
   }
 };
+=======
+  getWord(db, word_id) {
+    return db
+      .from('word')
+      .select('*')
+      .where({ id: word_id })
+      .first();
+  },
+}
+>>>>>>> cfce3aae1c1afae89d56fb7f4fc4f6ead21e5d2e
 
 module.exports = LanguageService;
