@@ -56,11 +56,12 @@ languageRouter
             wordCorrectCount: word.correct_count,
             wordIncorrectCount: word.incorrect_count,
           };
-          res.status(200).json(nextWord);
-          next();
+          console.log(newLang);
+          res.json(newLang);
         });
+      next();
     }
-    catch (error) {
+    catch (error){
       next(error);
     }
   });
@@ -83,6 +84,7 @@ languageRouter
       newM = newM * 2;
       correct_count++;
       total_score ++;
+      await LinkedListHelpers.moveMany(req.app.get('db'), req.user.id, word.id, newM);
     }
     else{
       newM = 1;
@@ -92,7 +94,7 @@ languageRouter
     }
     await LanguageService.updateWord(req.app.get('db'), word.id, {memory_value : newM, correct_count, incorrect_count});
     await LanguageService.updateUsersLanguage(req.app.get('db'), req.user.id, {total_score});
-
+    
 
 
 
