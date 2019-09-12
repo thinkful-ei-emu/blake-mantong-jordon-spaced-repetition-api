@@ -2,8 +2,8 @@ const express = require('express');
 const LanguageService = require('./language-service');
 const { requireAuth } = require('../middleware/jwt-auth');
 const languageRouter = express.Router();
+const jsonBodyParser = express.json();
 const LinkedListHelpers = require('../linkedlist.js');
-const bodyParser = express.json()
 
 languageRouter
   .use(requireAuth)
@@ -68,10 +68,9 @@ languageRouter
   });
 
 languageRouter
-  .post('/guess', bodyParser, async (req, res, next) => {
+  .post('/guess', jsonBodyParser, async (req, res, next) => {
     try {
-      console.log(req.body)
-      let { guess } = req.body;
+      const { guess } = req.body;
       if (!guess) {
         res.status(400).json({ error: `Missing 'guess' in request body` });
         next();
@@ -102,12 +101,12 @@ languageRouter
       await LanguageService.updateUsersLanguage(req.app.get('db'), req.user.id, { total_score });
       const nextWords = await LanguageService.getWord(
         req.app.get('db'),
-        req.language.head);
+        word.next);
       const nextWord = nextWords[0];
       let myResponse = {
         nextWord: nextWord.original,
-        wordCorrectCount: correct_count,
-        wordIncorrectCount: incorrect_count,
+        wordCorrectCount: nextWord.correct_count,
+        wordIncorrectCount: nextWord.incorrect_count,
         totalScore: total_score,
         answer: word.translation,
         isCorrect
