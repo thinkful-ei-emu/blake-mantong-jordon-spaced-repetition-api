@@ -56,25 +56,16 @@ languageRouter
             wordCorrectCount: word.correct_count,
             wordIncorrectCount: word.incorrect_count,
           };
-<<<<<<< HEAD
           console.log(newLang);
           res.json(newLang);
         });
       next();
     }
     catch (error){
-=======
-          res.status(200).json(nextWord);
-          next();
-        });
-    }
-    catch (error) {
->>>>>>> cfce3aae1c1afae89d56fb7f4fc4f6ead21e5d2e
       next(error);
     }
   });
 
-<<<<<<< HEAD
 
 
 languageRouter
@@ -93,6 +84,7 @@ languageRouter
       newM = newM * 2;
       correct_count++;
       total_score ++;
+      await LinkedListHelpers.moveMany(req.app.get('db'), req.user.id, word.id, newM);
     }
     else{
       newM = 1;
@@ -102,19 +94,12 @@ languageRouter
     }
     await LanguageService.updateWord(req.app.get('db'), word.id, {memory_value : newM, correct_count, incorrect_count});
     await LanguageService.updateUsersLanguage(req.app.get('db'), req.user.id, {total_score});
-
+    
 
 
 
     // implement me
     res.send('implement me!');
   });
-=======
-languageRouter
-  .post('/guess', async (req, res, next) => {
-
-    res.send('implement me!')
-  })
->>>>>>> cfce3aae1c1afae89d56fb7f4fc4f6ead21e5d2e
 
 module.exports = languageRouter;
