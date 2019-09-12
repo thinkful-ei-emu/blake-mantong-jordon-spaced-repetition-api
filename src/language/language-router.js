@@ -2,6 +2,7 @@ const express = require('express')
 const LanguageService = require('./language-service')
 const { requireAuth } = require('../middleware/jwt-auth')
 const languageRouter = express.Router()
+const LinkedListHelpers = require('../linkedlist.js');
 
 languageRouter
   .use(requireAuth)
@@ -66,11 +67,42 @@ languageRouter
     catch (error){
       next(error)
     }
-  })
+  });
+
+
+
 languageRouter
   .post('/guess', async (req, res, next) => {
+    let {answer} = res.body;
+    LanguageService.getWord(
+      req.app.get('db'),
+      req.language.head )
+      .then(word=>{
+        let newM = word.memory_value;
+        let correct_count = word.correct_count;
+        let incorrect_count = word.incorrect_count;
+        let total_score = req.language.total_score;
+        let isRight = (answer === word.translation)
+        if(isRight){
+          newM = newM * 2;
+          correct_count++;
+          total_score ++;
+        }
+        else{
+          newM = 1;
+          incorrect_count++;
+          total_score --;
+          await LinkedListHelpers.moveOne(req.app.get('db'), req.user.id, word.id);
+        }
+        await LanguageService.updateWord(req.app.get('db'), word.id, {memory_value : newM, correct_count, incorrect_count});
+        await LanguageService.updateUsersLanguage(req.app.get('db'), req.user.id, {total_score});
+      })
+
+
+
+
     // implement me
-    res.send('implement me!')
+    res.send('implement me!');
   })
 
 module.exports = languageRouter
