@@ -68,7 +68,7 @@ languageRouter
   });
 
 languageRouter
-  .post('/guess', async (req, res, next) => {
+  .post('/guess', bodyParser, async (req, res, next) => {
     try {
       let { guess } = req.body;
       console.log('whatwahtwaht', req.body)
