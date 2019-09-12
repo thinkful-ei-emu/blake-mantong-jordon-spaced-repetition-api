@@ -56,25 +56,15 @@ languageRouter
             wordCorrectCount: word.correct_count,
             wordIncorrectCount: word.incorrect_count,
           };
-<<<<<<< HEAD
-          console.log(newLang);
-          res.json(newLang);
-        });
-      next();
-    }
-    catch (error){
-=======
           res.status(200).json(nextWord);
           next();
         });
     }
     catch (error) {
->>>>>>> cfce3aae1c1afae89d56fb7f4fc4f6ead21e5d2e
       next(error);
     }
   });
 
-<<<<<<< HEAD
 
 
 languageRouter
@@ -109,12 +99,5 @@ languageRouter
     // implement me
     res.send('implement me!');
   });
-=======
-languageRouter
-  .post('/guess', async (req, res, next) => {
-
-    res.send('implement me!')
-  })
->>>>>>> cfce3aae1c1afae89d56fb7f4fc4f6ead21e5d2e
 
 module.exports = languageRouter;
