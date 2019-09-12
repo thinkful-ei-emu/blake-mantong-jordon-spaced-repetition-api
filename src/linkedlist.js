@@ -22,4 +22,4 @@ let LinkedListHelpers = {
   }
 };
 
-export default LinkedListHelpers;
+module.exports= LinkedListHelpers;
