@@ -56,10 +56,10 @@ languageRouter
             wordCorrectCount: word.correct_count,
             wordIncorrectCount: word.incorrect_count,
           };
-          console.log(newLang);
-          res.json(newLang);
+
+          res.status(200).json(nextWord);
+          next();
         });
-      next();
     }
     catch (error){
       next(error);
@@ -70,36 +70,50 @@ languageRouter
 
 languageRouter
   .post('/guess', async (req, res, next) => {
-    let {answer} = res.body;
-    const word = await LanguageService.getWord(
-      req.app.get('db'),
-      req.language.head );
+    try{
+      let {answer} = res.body;
+      const word = await LanguageService.getWord(
+        req.app.get('db'),
+        req.language.head );
      
-    let newM = word.memory_value;
-    let correct_count = word.correct_count;
-    let incorrect_count = word.incorrect_count;
-    let total_score = req.language.total_score;
-    let isRight = (answer === word.translation);
-    if(isRight){
-      newM = newM * 2;
-      correct_count++;
-      total_score ++;
-      await LinkedListHelpers.moveMany(req.app.get('db'), req.user.id, word.id, newM);
+      let newM = word.memory_value;
+      let correct_count = word.correct_count;
+      let incorrect_count = word.incorrect_count;
+      let total_score = req.language.total_score;
+      let isCorrect = (answer === word.translation);
+      if(isCorrect){
+        newM = newM * 2;
+        correct_count++;
+        total_score ++;
+        await LinkedListHelpers.moveMany(req.app.get('db'), req.user.id, word.id, newM);
+      }
+      else{
+        newM = 1;
+        incorrect_count++;
+        total_score --;
+        await LinkedListHelpers.moveOne(req.app.get('db'), req.user.id, word.id);
+      }
+      await LanguageService.updateWord(req.app.get('db'), word.id, {memory_value : newM, correct_count, incorrect_count});
+      await LanguageService.updateUsersLanguage(req.app.get('db'), req.user.id, {total_score});
+      const nextWord = await LanguageService.getWord(
+        req.app.get('db'),
+        req.language.head );
+
+      let myResponse = {
+        nextWord: nextWord.original,
+        wordCorrectCount: correct_count,
+        wordIncorrectCount: incorrect_count,
+        totalScore: total_score,
+        answer: word.translation,
+        isCorrect
+      };
+
+      res.status(200).json(myResponse);
+      next();
     }
-    else{
-      newM = 1;
-      incorrect_count++;
-      total_score --;
-      await LinkedListHelpers.moveOne(req.app.get('db'), req.user.id, word.id);
+    catch (error){
+      next(error);
     }
-    await LanguageService.updateWord(req.app.get('db'), word.id, {memory_value : newM, correct_count, incorrect_count});
-    await LanguageService.updateUsersLanguage(req.app.get('db'), req.user.id, {total_score});
-    
-
-
-
-    // implement me
-    res.send('implement me!');
   });
 
 module.exports = languageRouter;
