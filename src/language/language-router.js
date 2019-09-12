@@ -49,7 +49,6 @@ languageRouter
         req.language.head
       )
         .then(word => {
-          console.log(word)
           const nextWord =
           {
             nextWord: word[0].original,
@@ -57,7 +56,7 @@ languageRouter
             wordCorrectCount: word[0].correct_count,
             wordIncorrectCount: word[0].incorrect_count,
           };
-          console.log(nextWord)
+          console.log(nextWord);
           res.status(200).json(nextWord);
           next();         
         });
@@ -73,9 +72,12 @@ languageRouter
   .post('/guess', async (req, res, next) => {
     try{
       let {answer} = res.body;
-      const word = await LanguageService.getWord(
+      const words = await LanguageService.getWord(
         req.app.get('db'),
         req.language.head );
+      console.log(words);
+      const word = words[0];
+      console.log(word);
      
       let newM = word.memory_value;
       let correct_count = word.correct_count;
@@ -96,10 +98,10 @@ languageRouter
       }
       await LanguageService.updateWord(req.app.get('db'), word.id, {memory_value : newM, correct_count, incorrect_count});
       await LanguageService.updateUsersLanguage(req.app.get('db'), req.user.id, {total_score});
-      const nextWord = await LanguageService.getWord(
+      const nextWords = await LanguageService.getWord(
         req.app.get('db'),
         req.language.head );
-
+      const nextWord = nextWords[0];
       let myResponse = {
         nextWord: nextWord.original,
         wordCorrectCount: correct_count,
