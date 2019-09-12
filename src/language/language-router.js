@@ -70,10 +70,10 @@ languageRouter
 languageRouter
   .post('/guess', bodyParser, async (req, res, next) => {
     try {
+      console.log(req.body)
       let { guess } = req.body;
-      console.log('whatwahtwaht', req.body)
       if (!guess) {
-        res.status(400).json({ error: 'Bad Request' });
+        res.status(400).json({ error: `Missing 'guess' in request body` });
         next();
       }
       const words = await LanguageService.getWord(
