@@ -1,31 +1,31 @@
-const bcrypt = require('bcryptjs')
-const app = require('../src/app')
-const helpers = require('./test-helpers')
+const bcrypt = require('bcryptjs');
+const app = require('../src/app');
+const helpers = require('./test-helpers');
 
 describe('User Endpoints', function () {
-  let db
+  let db;
 
-  const testUsers = helpers.makeUsersArray()
-  const testUser = testUsers[0]
+  const testUsers = helpers.makeUsersArray();
+  const testUser = testUsers[0];
 
   before('make knex instance', () => {
-    db = helpers.makeKnexInstance()
-    app.set('db', db)
-  })
+    db = helpers.makeKnexInstance();
+    app.set('db', db);
+  });
 
-  after('disconnect from db', () => db.destroy())
+  after('disconnect from db', () => db.destroy());
 
-  before('cleanup', () => helpers.cleanTables(db))
+  before('cleanup', () => helpers.cleanTables(db));
 
-  afterEach('cleanup', () => helpers.cleanTables(db))
+  afterEach('cleanup', () => helpers.cleanTables(db));
 
   /**
    * @description Register a user and populate their fields
    **/
   describe(`POST /api/user`, () => {
-    beforeEach('insert users', () => helpers.seedUsers(db, testUsers))
+    beforeEach('insert users', () => helpers.seedUsers(db, testUsers));
 
-    const requiredFields = ['username', 'password', 'name']
+    const requiredFields = ['username', 'password', 'name'];
 
     requiredFields.forEach(field => {
       const registerAttemptBody = {

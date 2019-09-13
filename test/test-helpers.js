@@ -1,6 +1,6 @@
-const knex = require('knex')
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+const knex = require('knex');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 /**
  * create a knex instance connected to postgres
@@ -10,7 +10,7 @@ function makeKnexInstance() {
   return knex({
     client: 'pg',
     connection: process.env.TEST_DB_URL,
-  })
+  });
 }
 
 /**
@@ -31,7 +31,7 @@ function makeUsersArray() {
       name: 'Test user 2',
       password: 'password',
     },
-  ]
+  ];
 }
 
 /**
@@ -46,7 +46,7 @@ function makeLanguagesAndWords(user) {
       name: 'Test language 1',
       user_id: user.id,
     },
-  ]
+  ];
 
   const words = [
     {
@@ -84,9 +84,9 @@ function makeLanguagesAndWords(user) {
       language_id: 1,
       next: null,
     },
-  ]
+  ];
 
-  return [languages, words]
+  return [languages, words];
 }
 
 /**
@@ -99,8 +99,8 @@ function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
   const token = jwt.sign({ user_id: user.id }, secret, {
     subject: user.username,
     algorithm: 'HS256',
-  })
-  return `Bearer ${token}`
+  });
+  return `Bearer ${token}`;
 }
 
 /**

@@ -1,7 +1,7 @@
 const LanguageService = require('./language/language-service.js');
 
 let LinkedListHelpers = {
-  async moveMany(db, user_id, head_id, index = 1){
+  async movePositionInLinkedList(db, user_id, head_id, index = 1){
     let head = await LanguageService.getWord(db, head_id);
     let currNode = await LanguageService.getWord(db, head_id);
     await LanguageService.updateUsersLanguage(db, user_id, {head : currNode.next});
