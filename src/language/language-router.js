@@ -79,8 +79,7 @@ languageRouter
       const words = await LanguageService.getWord(
         req.app.get('db'),
         req.language.head);
-      const word = words[0];
-
+      const word = words;     
       let newM = word.memory_value;
       let correct_count = word.correct_count;
       let incorrect_count = word.incorrect_count;
@@ -95,15 +94,14 @@ languageRouter
       else {
         newM = 1;
         incorrect_count++;
-        total_score--;
-        await LinkedListHelpers.moveOne(req.app.get('db'), req.user.id, word.id);
+        await LinkedListHelpers.moveMany(req.app.get('db'), req.user.id, word.id);
       }
       await LanguageService.updateWord(req.app.get('db'), word.id, { memory_value: newM, correct_count, incorrect_count });
       await LanguageService.updateUsersLanguage(req.app.get('db'), req.user.id, { total_score });
       const nextWords = await LanguageService.getWord(
         req.app.get('db'),
         word.next);
-      const nextWord = nextWords[0];
+      const nextWord = nextWords;
       let myResponse = {
         nextWord: nextWord.original,
         wordCorrectCount: nextWord.correct_count,
