@@ -207,7 +207,7 @@ describe.only('Language Endpoints', function () {
             wordIncorrectCount: 1,
             answer: testLanguagesWords[1].translation,
             isCorrect: false
-          }).
+          })
       })
     })
 
