@@ -4,7 +4,6 @@ const { requireAuth } = require('../middleware/jwt-auth');
 const languageRouter = express.Router();
 const jsonBodyParser = express.json();
 const LinkedListHelpers = require('../linkedlist.js');
-const bodyParser = express.json()
 
 languageRouter
   .use(requireAuth)
