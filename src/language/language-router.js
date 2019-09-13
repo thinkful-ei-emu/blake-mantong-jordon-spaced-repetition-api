@@ -52,10 +52,10 @@ languageRouter
         .then(word => {
           const nextWord =
           {
-            nextWord: word[0].original,
+            nextWord: word.original,
             totalScore: req.language.total_score,
-            wordCorrectCount: word[0].correct_count,
-            wordIncorrectCount: word[0].incorrect_count,
+            wordCorrectCount: word.correct_count,
+            wordIncorrectCount: word.incorrect_count,
           };
           //console.log(nextWord);
           res.status(200).json(nextWord);
